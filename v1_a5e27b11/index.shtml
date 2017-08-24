@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
-<body>
+<body> 
     <div id="test">
             <p sd-text="msg | capitalize"></p>
             <!-- <p sd-show="something">YOYOYO</p>
