@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="test">
+            <p sd-text="msg | capitalize"></p>
+            <!-- <p sd-show="something">YOYOYO</p>
+            <p class="button" sd-text="msg"></p>
+            <p sd-class-red="error" sd-text="hello"></p> -->
+    </div>
+
+    <script src="./index.js"></script>
+    <script>
+
+        var app = new Seed({
+			    id: 'test',
+			    // template
+			    scope: {
+			        msg: 'hello',
+			        hello: 'WHWHWHW',
+			        changeMessage: function () {
+			            app.scope.msg = 'hola'
+			        }
+			    }
+			})
+</script>
+</body>
+</html>

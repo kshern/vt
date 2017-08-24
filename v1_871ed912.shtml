@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="test">
+        <p>{{msg}}</p>
+        <p>{{msg}}</p>
+        <p>{{msg}}</p>
+        <p>{{what}}</p>
+        <p>{{hey}}</p>
+        <input type="text" id="defined">
+    </div>
+    <script>
+        bindingMark = 'data-element-binding'
+        bindings = {}
+        function V(id, initData) {
+            var self = this,
+                el = document.getElementById(id),
+                content = el.innerHTML.replace(/\{\{(.*)\}\}/g, markToken),
+                data = self.data = {}
+
+
+
+
+            function markToken(match, variable) {
+                bindings[variable] = {}
+                return '<span ' + bindingMark + '= "' + variable + '" ></span>'
+            }
+            el.innerHTML = content;
+
+
+            var bindsArr = Object.keys(bindings)
+
+            for (var i = 0; i < bindsArr.length; i++) {
+                bind(bindsArr[i])
+            }
+
+            var initDataArr = Object.keys(bindings);
+
+            for (var i = 0; i < initDataArr.length; i++) {
+                data[initDataArr[i]] = initData[initDataArr[i]]
+            }
+
+
+            function bind(variable) {
+                bindings[variable].els = el.querySelectorAll('['+bindingMark+'="'+variable+'"]');
+                [].forEach.call(bindings[variable].els,function(e){
+                    e.removeAttribute(bindingMark)
+                })
+
+                Object.defineProperty(data,variable,{
+                    set:function(newVal){
+                        [].forEach.call(bindings[variable].els,function(e){
+                            bindings[variable].value = e.textContent = newVal
+                        })
+                    },
+                    get:function(){
+                        return bindings[variable].value
+                    }
+                })
+
+            }
+
+            
+        }
+        var a = {}
+
+        V('test', { msg: 'helloword',hey:'111' })
+
+        // Object.defineProperty(a,'b',{
+        //     set:function(newValue){
+        //         // alert(newValue)
+        //     },
+        //     get:function(){
+        //         alert(111)
+        //     }
+        // })
+    </script>
+</body>
+
+</html>
