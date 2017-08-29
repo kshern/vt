@@ -9,9 +9,9 @@
 <body> 
     <div id="test">
             <p sd-text="msg | capitalize" class="test"></p>
-            <!-- <p sd-show="something">YOYOYO</p>
+             <p sd-show="something">YOYOYO</p>
             <p class="button" sd-text="msg"></p>
-            <p sd-class-red="error" sd-text="hello"></p> -->
+            <p sd-class-red="error" sd-text="hello"></p> 
     </div>
 
     <script src="./index.js"></script>

@@ -19,29 +19,31 @@ function Seed(opts) {
     self.scope = {}
 
 
-
-    var scopeArr = opts.scope && Object.keys(opts.scope)
+    ;[].forEach.call(els, processNode);
+    var scopeArr = bindings && Object.keys(opts.scope)
 
     for (var i = 0; i < scopeArr.length; i++) {
         self.scope[scopeArr[i]] = opts.scope[scopeArr[i]]
     }
 
-    ;[].forEach.call(els, processNode);
+
+
+    //  processNode(root)
 
     function processNode(el) {
         cloneAttributes(el.attributes).forEach(function (attr) {
             //需要将提取出来的属性和Directives中的属性做对比  找出what todo
-            var directives = parseDirectives(attr);
+            var directive = parseDirectives(attr);
 
-            if (directives) {
-                bindDirective(el,bindings,directives)
+            if (directive) {
+                bindDirective(self,el,bindings,directive)
             }
         })
     }
 
 
-    function bindDirective(el,bindings,directives){
-        var key = directives.key
+    function bindDirective(seed,el,bindings,directive){
+        var key = directive.key
         binding = bindings[key]
         if(!binding){
             bindings[key] = binding = {
@@ -54,8 +56,27 @@ function Seed(opts) {
 
         binding.directives.push(directive)
 
-        
+        if(!seed.scope.hasOwnProperty(key)){
+            bindAccessors(seed,key,binding)
+        }
 
+    }
+
+    function bindAccessors(seed,key,binding){
+        Object.defineProperty(seed.scope,key,{
+            get:function(){
+                return binding.value
+            },
+            set:function(value){
+                binding.value = value
+                binding.directives.forEach(function(directive){
+                    if(value && directive.filter){
+                        value = directive.filter(value)
+                    }
+                    directive.update(directive.el,value,directive,seed)
+                })
+            }
+        })
     }
 
 
