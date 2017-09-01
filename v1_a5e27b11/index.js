@@ -1,16 +1,17 @@
 
 
-var prefix = 'sd',
+var prefix = 'v',
     Directives = {
         text: function (el, value) {
             el.textContent = value || ''
-        }
+        },
+
     },
     selector = Object.keys(Directives).map(function (d) {
         return '[' + prefix + '-' + d + ']'
     })
 
-function Seed(opts) {
+function Vue(opts) {
     var self = this,
         root = this.el = document.getElementById(opts.id),
         els = root.querySelectorAll(selector)
